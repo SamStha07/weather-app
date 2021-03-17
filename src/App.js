@@ -21,6 +21,7 @@ function App() {
         `);
 
       setWeather(data);
+      console.log(data);
       setQuery('');
       setError('');
     } catch (err) {
@@ -30,43 +31,57 @@ function App() {
 
   return (
     <>
-      <div className='form'>
-        <form>
+      <div className='container'>
+        <form className='form'>
           <input
+            className='inputCity'
             type='text'
             id='city'
             placeholder='Enter City Name'
             value={query}
             onChange={(e) => setQuery(e.target.value)}
           />
-          <button type='submit' onClick={getWeather}>
+          <button className='btn' type='submit' onClick={getWeather}>
             Get Weather
           </button>
         </form>
-      </div>
 
-      {error ? (
-        <div className='error'>{error}</div>
-      ) : (
-        <>
-          <div className='title'>
-            {weather && weather.location && weather.location.name}
-          </div>
-          <div className='main'>
-            {weather && weather.current && (
-              <div>
-                <img src={weather.current.condition.icon} alt='' />
-                <div>Humidity: {weather.current.humidity}%</div>
+        {error ? (
+          <div className='error'>No results found</div>
+        ) : (
+          <>
+            <div className='title'>
+              {weather && weather.location && weather.location.name}
+            </div>
+
+            <div className='summary'>
+              {weather && weather.current && (
                 <div>
-                  Temperature: {weather.current.temp_c}
-                  <span>&#8451;</span>
+                  <img
+                    className='image'
+                    src={weather.current.condition.icon}
+                    alt=''
+                  />
+                  <div className='condition'>
+                    {weather.current.condition.text}
+                  </div>
+
+                  <div className='details'>
+                    Humidity: {weather.current.humidity}%
+                  </div>
+                  <div className='details'>
+                    Temperature: {weather.current.temp_c}
+                    <span>&#8451;</span>
+                  </div>
+                  <div className='details'>
+                    Wind: {weather.current.wind_kph} km/h
+                  </div>
                 </div>
-                <div>Wind: {weather.current.wind_kph} km/h</div>
-              </div>
-            )}
-          </div>
-        </>
-      )}
+              )}
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 }
